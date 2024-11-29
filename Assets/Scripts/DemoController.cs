@@ -253,6 +253,13 @@ public class DemoController : MonoBehaviour
     private IEnumerator DelayBeforeChangingVideo()
     {
         yield return new WaitForSeconds(8f);
-        PlayNextVideo();
+
+        if (currentVideoIndex >= videos.Count)
+        {
+            SaveData();
+            SceneManager.LoadScene("Questionare");
+        }
+        else
+            PlayNextVideo();
     }
 }
