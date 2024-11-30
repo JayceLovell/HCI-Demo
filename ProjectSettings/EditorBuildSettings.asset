@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Demo.unity
     guid: 62445d519e2577a41a59a7c75685510b
   - enabled: 1
+    path: Assets/Scenes/Results.unity
+    guid: b503f1784e38ce84594d80afde0b6e22
+  - enabled: 1
     path: Assets/Scenes/Questionare.unity
     guid: dd8f589a955697d41a25cdc53142238f
   - enabled: 1

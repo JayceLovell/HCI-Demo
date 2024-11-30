@@ -83,8 +83,7 @@ public class DemoController : MonoBehaviour
         set
         {
             currentVideoIndex = value;
-
-            vidoeCounter.SetText(CurrentVideoIndex+"/"+(videos.Count+1));
+            
         }
     }
 
@@ -111,7 +110,7 @@ public class DemoController : MonoBehaviour
                 case "Dodge":
                     videoActionMap[video] = CollectedData.Actions.Dodge;
                         break;
-                case "SpeicalAttack":
+                case "SpecialAttack":
                     videoActionMap[video] = CollectedData.Actions.SpeicalAttack;
                         break;
                 case "Move":
@@ -146,46 +145,60 @@ public class DemoController : MonoBehaviour
        // videoPlayer.loopPointReached += EndOfVideo;
         videoPlayer.targetTexture = renderTexture;
 
+        CurrentVideoIndex = 0;
         PlayNextVideo();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (IsWaitingForInput && Input.anyKeyDown)           
-        {                      
-            string inputKey = Input.inputString;
-
-            collectedData.Add(new CollectedData
+        if (IsWaitingForInput)
+        {
+            if (Input.GetMouseButtonDown(0))
             {
-                Action = currentAction,
-                UserInput = inputKey
-            });
-
-            InputHasBeenRecieved = true;
-
-            StartCoroutine(DelayBeforeChangingVideo());
+                SaveInput("LeftClick");
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                SaveInput("RightClick");
+            }
+            else if (Input.GetMouseButtonDown(2))
+            {
+                SaveInput("MiddleClick");
+            }
+            else if (Input.mouseScrollDelta.y > 0 || Input.mouseScrollDelta.y < 0)
+            {
+                SaveInput("Scroll");
+            }
+            else if (Input.anyKeyDown)
+            {
+                foreach (KeyCode key in Enum.GetValues(typeof(KeyCode)))
+                {
+                    if (Input.GetKeyDown(key))
+                    {
+                        SaveInput(key.ToString());
+                        break;
+                    }
+                }
+            }
         }
     }
-    //private void EndOfVideo(VideoPlayer vp)
-    //{
-    //    if (InputHasBeenRecieved)
-    //    {
-    //        if (currentVideoIndex >= videos.Count)
-    //        {
-    //            SaveData();
-    //            SceneManager.LoadScene("Finish");
-    //        }
-    //        else
-    //            PlayNextVideo();            
-    //    }
-    //    else
-    //    {            
-    //        IsWaitingForInput = true;
-    //        InputHasBeenRecieved = false;
-    //    }
-       
-    //}
+    private void SaveInput(string input)
+    {
+        collectedData.Add(new CollectedData
+        {
+            Action = currentAction,
+            UserInput = input
+        });
+
+        Debug.Log("Action " + currentAction.ToString() + " to match Input " + input);
+
+        InputHasBeenRecieved = true;
+
+        CurrentVideoIndex++;
+
+        StartCoroutine(DelayBeforeChangingVideo());
+    }
     private void PlayNextVideo()
     {
 
@@ -193,11 +206,10 @@ public class DemoController : MonoBehaviour
         {
             videoPlayer.clip = videos[CurrentVideoIndex];
             currentAction = videoActionMap[videoPlayer.clip];
-            videoPlayer.Play();
-            CurrentVideoIndex++;
+            videoPlayer.Play();            
             IsWaitingForInput = false;
             InputHasBeenRecieved = false;
-
+            vidoeCounter.SetText((CurrentVideoIndex + 1) + "/" + (videos.Count));
             StartCoroutine(WaitForFiveSecond());
         }
         else
@@ -256,8 +268,10 @@ public class DemoController : MonoBehaviour
 
         if (currentVideoIndex >= videos.Count)
         {
+            DataContainer.CollectedDataList = collectedData;
             SaveData();
-            SceneManager.LoadScene("Questionare");
+            yield return new WaitForSeconds(1f);
+            SceneManager.LoadScene("Results");
         }
         else
             PlayNextVideo();
