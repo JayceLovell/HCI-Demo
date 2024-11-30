@@ -15,6 +15,6 @@ public class MoveOnVideoEnd : MonoBehaviour
 
     private void MoveOn(VideoPlayer vp)
     {
-        SceneManager.LoadScene("Demo");
+        SceneManager.LoadScene("Title");
     }
 }

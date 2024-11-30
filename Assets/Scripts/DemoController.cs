@@ -222,7 +222,7 @@ public class DemoController : MonoBehaviour
     {
 
         // Define the directory path for saving data
-        string directoryPath = Path.Combine(Application.dataPath, "InputData");
+        string directoryPath = Path.Combine(Application.dataPath, "../InputData");
 
         // Ensure the directory exists
         if (!Directory.Exists(directoryPath))

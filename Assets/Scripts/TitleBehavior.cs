@@ -15,6 +15,6 @@ public class TitleBehavior : MonoBehaviour
 
     private void Begin()
     {
-        SceneManager.LoadScene("Intro");
+        SceneManager.LoadScene("Demo");
     }
 }

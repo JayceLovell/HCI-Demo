@@ -72,7 +72,7 @@ public class QuestionareController : MonoBehaviour
     private void SaveToCSV(List<string> userAnswers)
     {
         // Define the directory path for saving data
-        string directoryPath = Path.Combine(Application.dataPath, "QuestioanreData");
+        string directoryPath = Path.Combine(Application.dataPath, "../QuestioanreData");
 
         // Ensure the directory exists
         if (!Directory.Exists(directoryPath))
