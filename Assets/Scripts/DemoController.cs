@@ -22,7 +22,7 @@ public class CollectedData
         Taunt,
         Fire,
         ToggleWeapons,
-        Interact,
+        Jump,
         Finish
     }
 
@@ -129,8 +129,8 @@ public class DemoController : MonoBehaviour
                 case "ToggleWeapons":
                     videoActionMap[video] = CollectedData.Actions.ToggleWeapons;
                         break;
-                case "Interact":
-                    videoActionMap[video] = CollectedData.Actions.Interact;
+                case "Jump":
+                    videoActionMap[video] = CollectedData.Actions.Jump;
                     break;
             }
         }
